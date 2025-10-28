@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politeknik Kuching Sarawak - Student Registration Form</title>
+    
+    <!-- Load Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    
+    <style>
+        body {
+            background-color: #f0f3f6; /* Very light cool gray/blue */
+            font-family: Arial, sans-serif;
+            padding-top: 50px;
+            padding-bottom: 50px;
+            min-height: 100vh;
+        }
+        .form-container, .display-container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 0;
+            border: 1px solid #c7d2e0; 
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+        }
+        .header-title {
+            color: #1a4a6b; 
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        
+        .form-section-title {
+            color: #1a4a6b;
+            padding: 8px 0;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 1px solid #c7d2e0; 
+        }
+        
+        #imagePreview, #displayImagePreview {
+            width: 120px; 
+            height: 120px;
+            border: 1px dashed #aeb8c4; 
+            background-color: #f9f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 5px;
+            margin-left: 15px;
+            flex-shrink: 0;
+        }
+        #imagePreview img, #displayImagePreview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .form-row-compact {
+            margin-bottom: 10px !important;
+        }
+        .form-row-compact .col-form-label {
+            padding-top: 0.375rem;
+            padding-bottom: 0.375rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .info-value {
+            color: #1a4a6b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- ---------------------------------------------------- -->
+    <!-- Registration Form View (Initially shown) -->
+    <!-- ---------------------------------------------------- -->
+    <div class="form-container" id="form-view">
+        
+        <div style="background-color: #d9e2ec; padding: 20px 30px;">
+            <h1 class="text-center header-title">Politeknik Kuching Sarawak</h1>
+        </div>
+
+        <form id="registrationForm" novalidate> <!-- Added novalidate to handle validation purely in JS's checkValidity -->
+
+            <div style="background-color: #ffffff; padding: 20px 30px;">
+                <h2 class="text-center h5 mb-4" style="color: #34495e;">Student Registration Form</h2>
+
+                
+                <div class="row mb-4 align-items-start">
+                    <label for="studentImage" class="col-sm-4 col-form-label">Student Image:</label>
+                    <div class="col-sm-8 d-flex">
+                        <!-- Column for Input and Small Text -->
+                        <div class="d-flex flex-column me-2 flex-grow-1">
+                            <!-- Input field -->
+                            <input type="file" id="studentImage" class="form-control" accept="image/*" 
+                                onchange="previewImage(event)">
+                            <!-- Small text moved directly under the input field -->
+                            <small class="text-muted mt-1">(less than 5 Mb)</small>
+                            <div class="invalid-feedback">Image file is too large or invalid.</div>
+                        </div>
+
+                        <!-- Image Preview -->
+                        <div id="imagePreview" class="text-muted small">
+                            Preview
+                        </div>
+                    </div>
+                </div>
+
+    
+                <div class="row form-row-compact">
+                    <label for="studentName" class="col-sm-4 col-form-label">Student Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="studentName" class="form-control" placeholder="Full Name" 
+                                required onchange="toCaps(this)">
+                    </div>
+                </div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="fatherName" class="col-sm-4 col-form-label">Father's Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="fatherName" class="form-control" placeholder="Father's Full Name" 
+                                required onchange="toCaps(this)">
+                    </div>
+                </div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="motherName" class="col-sm-4 col-form-label">Mother's Name:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="motherName" class="form-control" placeholder="Mother's Full Name" 
+                                required onchange="toCaps(this)">
+                    </div>
+                </div>
+
+        
+                <div class="row form-row-compact">
+                    <label class="col-sm-4 col-form-label">Gender:</label>
+                    <div class="col-sm-8 pt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="Male" required>
+                            <label class="form-check-label" for="genderMale">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="Female">
+                            <label class="form-check-label" for="genderFemale">Female</label>
+                        </div>
+                    </div>
+                </div>
+                
+            
+                <div class="row form-row-compact">
+                    <label for="dateOfBirth" class="col-sm-4 col-form-label">Date of Birth:</label>
+                    <div class="col-sm-8">
+                        <input type="date" id="dateOfBirth" class="form-control" required>
+                    </div>
+                </div>
+
+            
+                <div class="row form-row-compact">
+                    <label for="email" class="col-sm-4 col-form-label">E-mail:</label>
+                    <div class="col-sm-8">
+                        <input type="email" id="email" class="form-control" placeholder="example@email.com" 
+                                required onfocus="handleFocus(this)" onblur="handleBlur(this)">
+                    </div>
+                </div>
+
+                <!-- Level - Used custom compact class -->
+                <div class="row form-row-compact">
+                    <label for="level" class="col-sm-4 col-form-label">Level:</label>
+                    <div class="col-sm-8">
+                        <select id="level" class="form-select" required>
+                            <option value="" disabled selected>Select Level</option>
+                            <option value="PHD">PHD</option>
+                            <option value="MASTERS">MASTERS</option>
+                            <option value="BACHELORS">DEGREE</option>
+                            <option value="DIPLOMA">DIPLOMA</option>
+                        </select>
+                    </div>
+                </div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="department" class="col-sm-4 col-form-label">Department:</label>
+                    <div class="col-sm-8">
+                        <select id="department" class="form-select" required>
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="COMPUTER ENGINEERING">COMPUTER ENGINEERING</option>
+                            <option value="ELECTRICAL ENGINEERING">ELECTRICAL ENGINEERING</option>
+                            <option value="MECHANICAL ENGINEERING">MECHANICAL ENGINEERING</option>
+                            <option value="CIVIL ENGINEERING">CIVIL ENGINEERING</option>
+                        </select>
+                    </div>
+                </div>
+
+            
+                <div class="row form-row-compact mb-0"> <!-- Removed mb-4 here, as it's the end of the section -->
+                    <label for="telMobile" class="col-sm-4 col-form-label">Tel Mobile:</label>
+                    <div class="col-sm-8">
+                        <input type="tel" id="telMobile" class="form-control" placeholder="01X-XXXX-XXXX" required>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div style="background-color: #e7edf3; padding: 0 30px 20px 30px; border-top: 1px solid #c7d2e0;">
+                <div class="form-section-title">Address</div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="state" class="col-sm-4 col-form-label">State:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="state" class="form-control" placeholder="State" required onchange="toCaps(this)">
+                    </div>
+                </div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="city" class="col-sm-4 col-form-label">City:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="city" class="form-control" placeholder="City" required onchange="toCaps(this)">
+                    </div>
+                </div>
+
+                
+                <div class="row form-row-compact">
+                    <label for="postcode" class="col-sm-4 col-form-label">Postcode:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="postcode" class="form-control" placeholder="Postcode" required>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4 mb-4" style="padding: 0 30px;">
+                <!-- Register button triggers the submission logic and modal (Q. b. iv) -->
+                <button type="button" class="btn btn-dark btn-lg px-5" onclick="submitForm()">Register</button>
+                <button type="reset" class="btn btn-secondary btn-lg px-5" onclick="resetFormState()">Reset</button>
+            </div>
+
+        </form>
+    </div>
+    
+    <!-- ---------------------------------------------------- -->
+    <!-- Student Information Display View (Initially hidden) -->
+    <!-- ---------------------------------------------------- -->
+    <div class="display-container" id="data-view" style="display: none;">
+        <div style="background-color: #1a4a6b; padding: 20px 30px;">
+            <h1 class="text-center header-title text-white">Student Information Summary</h1>
+        </div>
+
+        <div style="padding: 20px 30px;">
+            <div class="row mb-4 align-items-center">
+                <div class="col-md-8">
+                    <h3 id="displayStudentName" class="header-title mb-0" style="font-size: 1.8rem; color: #1a4a6b;"></h3>
+                    <p id="displayLevelDept" class="text-muted"></p>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
+                     <!-- Image Preview from Submission -->
+                    <div id="displayImagePreview" class="text-muted small">
+                        [Image]
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section-title" style="border-bottom-color: #1a4a6b;">Personal Details</div>
+            
+            <dl class="row mb-0">
+                <dt class="col-sm-4 info-label">Father's Name:</dt>
+                <dd class="col-sm-8 info-value" id="displayFatherName"></dd>
+
+                <dt class="col-sm-4 info-label">Mother's Name:</dt>
+                <dd class="col-sm-8 info-value" id="displayMotherName"></dd>
+
+                <dt class="col-sm-4 info-label">Date of Birth:</dt>
+                <dd class="col-sm-8 info-value" id="displayDOB"></dd>
+
+                <dt class="col-sm-4 info-label">Gender:</dt>
+                <dd class="col-sm-8 info-value" id="displayGender"></dd>
+
+                <dt class="col-sm-4 info-label">Mobile:</dt>
+                <dd class="col-sm-8 info-value" id="displayMobile"></dd>
+
+                <dt class="col-sm-4 info-label">E-mail:</dt>
+                <dd class="col-sm-8 info-value" id="displayEmail"></dd>
+            </dl>
+            
+            <div class="form-section-title">Registered Address</div>
+            
+            <dl class="row">
+                <dt class="col-sm-4 info-label">Postcode:</dt>
+                <dd class="col-sm-8 info-value" id="displayPostcode"></dd>
+
+                <dt class="col-sm-4 info-label">City:</dt>
+                <dd class="col-sm-8 info-value" id="displayCity"></dd>
+                
+                <dt class="col-sm-4 info-label">State:</dt>
+                <dd class="col-sm-8 info-value" id="displayState"></dd>
+            </dl>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- Modal for Success Notification (Q. b. iv) -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="successModalLabel">Registration Complete</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fas fa-check-circle text-success" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                <p class="lead">
+                    <strong>Your details have been saved!</strong>
+                </p>
+                <p class="text-muted">You will now be redirected to the summary page.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">View Summary</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Bootstrap 5 JS Bundle (includes Popper for Modals) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+<!-- Load Font Awesome for the checkmark icon in the modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js" crossorigin="anonymous"></script>
+
+<script>
+
+    let studentData = {};
+    let imageURL = null; 
+
+    // ----------------------------------------------------------------------------------
+    // JAVASCRIPT FUNCTIONS (Q. b. i, ii, iii, and iv)
+    // ----------------------------------------------------------------------------------
+
+    /**
+     * Resets visual states when the form is reset by the Reset button.
+     */
+    function resetFormState() {
+        // Clear image preview on reset
+        document.getElementById('imagePreview').innerHTML = 'Preview';
+        document.getElementById('studentImage').classList.remove('is-invalid');
+        const form = document.getElementById('registrationForm');
+        form.classList.remove('was-validated'); // Remove validation styles
+        document.getElementById('email').classList.remove('is-invalid'); // Clear email error state
+        imageURL = null; // Clear image data
+    }
+
+
+    /**
+     * Previews the selected image and performs a size check.
+     */
+    function previewImage(event) {
+        const previewContainer = document.getElementById('imagePreview');
+        const fileInput = event.target;
+        
+        // Clear previous content and error state
+        previewContainer.innerHTML = 'Preview';
+        fileInput.classList.remove('is-invalid'); 
+        imageURL = null;
+
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            
+            // Basic file size check (less than 5Mb as per form instruction)
+            const maxSizeMb = 5;
+            if (file.size > maxSizeMb * 1024 * 1024) {
+                previewContainer.innerHTML = '<span class="text-danger small text-center px-1">Too large!</span>';
+                fileInput.classList.add('is-invalid');
+                console.error(`File size (${(file.size / 1024 / 1024).toFixed(2)} MB) exceeds limit of ${maxSizeMb} MB.`);
+                return; // Stop processing the file
+            }
+            
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Store the data URL globally
+                imageURL = e.target.result;
+
+                // Create and append the image element for the form preview
+                const img = document.createElement('img');
+                img.src = imageURL;
+                img.alt = "Student Image Preview";
+                previewContainer.innerHTML = ''; // Clear 'Preview' text
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+
+
+    /**
+     * Q. b. iii: Converts the text field value to CAPS LOCK on change.
+     */
+    function toCaps(element) {
+        element.value = element.value.toUpperCase();
+        console.log(`Changed to CAPS LOCK for: ${element.id}`);
+    }
+
+    /**
+     * Q. b. ii: Highlights the element visually on focus.
+     */
+    function handleFocus(element) {
+        element.classList.add('border-primary');
+        element.style.boxShadow = '0 0 0 0.25rem rgba(13, 110, 253, 0.25)'; // Standard blue focus glow
+        console.log("Email field focused: Ready to input.");
+    }
+
+    /**
+     * Q. b. i: Reverts focus highlight and performs basic email validation on blur.
+     */
+    function handleBlur(element) {
+        // Revert visual changes on blur
+        element.classList.remove('border-primary');
+        element.style.boxShadow = '';
+        
+        // Simple validation check: must contain @ and a dot
+        const emailRegex = /.+@.+\..+/; 
+        
+        if (element.value && !emailRegex.test(element.value)) {
+            // Apply error style for invalid input
+            element.classList.add('is-invalid');
+            console.error("Email is invalid. Must contain @ and a dot.");
+        } else {
+            // Remove error style if valid
+            element.classList.remove('is-invalid');
+            // Re-check validity against browser constraints if needed (e.g., empty field)
+            if (!element.checkValidity()) {
+                element.classList.add('is-invalid');
+            }
+            console.log("Email field blurred and validated.");
+        }
+    }
+    
+  
+    function gatherFormData() {
+        const data = {};
+        const fields = [
+            'studentName', 'fatherName', 'motherName', 'dateOfBirth', 
+            'email', 'level', 'department', 'telMobile', 
+            'state', 'city', 'postcode'
+        ];
+
+        fields.forEach(id => {
+            data[id] = document.getElementById(id).value;
+        });
+
+        // Handle radio button for gender
+        const genderElement = document.querySelector('input[name="gender"]:checked');
+        data['gender'] = genderElement ? genderElement.value : 'N/A';
+        
+        // Add the image data URL
+        data['imageURL'] = imageURL;
+        
+        return data;
+    }
+
+    function displayStudentInfo(data) {
+        // Populate the main header section
+        document.getElementById('displayStudentName').textContent = data.studentName;
+        document.getElementById('displayLevelDept').textContent = `${data.level} - ${data.department}`;
+        
+        // Populate Personal Details
+        document.getElementById('displayFatherName').textContent = data.fatherName;
+        document.getElementById('displayMotherName').textContent = data.motherName;
+        document.getElementById('displayDOB').textContent = data.dateOfBirth;
+        document.getElementById('displayGender').textContent = data.gender;
+        document.getElementById('displayMobile').textContent = data.telMobile;
+        document.getElementById('displayEmail').textContent = data.email;
+        
+        // Populate Address Details
+        document.getElementById('displayPostcode').textContent = data.postcode;
+        document.getElementById('displayCity').textContent = data.city;
+        document.getElementById('displayState').textContent = data.state;
+        
+        // Handle image preview for the display page
+        const displayPreview = document.getElementById('displayImagePreview');
+        displayPreview.innerHTML = '';
+        if (data.imageURL) {
+            const img = document.createElement('img');
+            img.src = data.imageURL;
+            img.alt = "Student Photo";
+            displayPreview.appendChild(img);
+        } else {
+            displayPreview.innerHTML = '<span class="text-muted small text-center">No Image</span>';
+        }
+        
+        // Switch view
+        document.getElementById('form-view').style.display = 'none';
+        document.getElementById('data-view').style.display = 'block';
+    }
+
+
+    /**
+     * Q. b. iv: Submission logic. Checks validity, shows modal, then switches view.
+     */
+    function submitForm() {
+        const form = document.getElementById('registrationForm');
+        
+        // Check HTML5 validity for required fields
+        if (!form.checkValidity()) {
+            // If the form is invalid, trigger Bootstrap's validation display
+            form.classList.add('was-validated');
+            console.error("Form validation failed. Please fill in all required fields.");
+            return;
+        }
+
+        // Check if the image size check failed (if the input has the invalid class)
+        if (document.getElementById('studentImage').classList.contains('is-invalid')) {
+             console.error("Image validation failed. File is too large.");
+             return;
+        }
+        
+        // 1. Gather Data
+        studentData = gatherFormData();
+
+        // 2. Show Modal (Q. b. iv)
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+        
+        // 3. Set up listener to transition to the data page after the modal closes
+        document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
+            // 4. Switch to display view and populate data
+            displayStudentInfo(studentData);
+            
+            // 5. Reset the form visually and internally after successful submission/view switch
+            form.reset();
+            resetFormState();
+
+        }, { once: true });
+        
+        console.log("Form successfully submitted.");
+    }
+    
+    /**
+     * Switches back to the registration form view.
+     */
+    function goToForm() {
+        document.getElementById('data-view').style.display = 'none';
+        document.getElementById('form-view').style.display = 'block';
+        console.log("Switched back to Registration Form view.");
+    }
+</script>
+
+</body>
+</html>
