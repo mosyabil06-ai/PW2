@@ -2,7 +2,7 @@
 
 This repository contains my Practical Work 2 (PW2) for the Web Programming course.
 
-## InformatioN
+## Information
 - **Course:** DFK20013-WEB DESIGN TECHNOLOGY
 - **Student Name:** [MOHAMMAD SYABIL ADHA BIN SAITHU MOHAMMAD]  
 - **Student ID:** 05DIT24F1071  
